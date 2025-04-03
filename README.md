@@ -143,6 +143,7 @@ Portanto, para rodar os testes no GitHub Actions, realize uma alteração qualqu
 Em seguida, clique na aba `Actions` e veja que os testes foram executados com sucesso no GitHub Actions. 
 Observe as execuções em múltiplos sistemas operacionais e versões da linguagem Python.
 
+
 # Commit 2: Removing getters @property and renaming attributes
 
 Observe que as classes `Book`, `Rental` e `Client` possuem 5 propriedades `@property` que representam métodos getters.
