@@ -14,6 +14,21 @@ class Rental:
         self.book = book
         self.days_rented = days_rented
 
+    def get_charge(self) -> float:
+        """Calculate the charge for this rental."""
+        amount = 0
+        if self.book.price_code == Book.REGULAR:
+            amount += 2
+            if self.days_rented > 2:
+                amount += (self.days_rented - 2) * 1.5
+        elif self.book.price_code == Book.NEW_RELEASE:
+            amount += self.days_rented * 3
+        elif self.book.price_code == Book.CHILDREN:
+            amount += 1.5
+            if self.days_rented > 3:
+                amount += (self.days_rented - 3) * 1.5
+        return amount
+
 
 class Client:
 
@@ -24,21 +39,6 @@ class Client:
     def add_rental(self, rental: Rental):
         self.rentals.append(rental)
 
-    def get_charge(self, rental: Rental) -> float:
-        """Calculate the charge for a single rental."""
-        amount = 0
-        if rental.book.price_code == Book.REGULAR:
-            amount += 2
-            if rental.days_rented > 2:
-                amount += (rental.days_rented - 2) * 1.5
-        elif rental.book.price_code == Book.NEW_RELEASE:
-            amount += rental.days_rented * 3
-        elif rental.book.price_code == Book.CHILDREN:
-            amount += 1.5
-            if rental.days_rented > 3:
-                amount += (rental.days_rented - 3) * 1.5
-        return amount
-
     def statement(self) -> str:
 
         total_amount = 0
@@ -47,7 +47,7 @@ class Client:
         
         for rental in self.rentals:
             # calculate charge for each rental
-            amount = self.get_charge(rental)
+            amount = rental.get_charge()
 
             # add frequent renter points
             frequent_renter_points += 1
