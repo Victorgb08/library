@@ -8,6 +8,21 @@ class Book:
         self.title = title
         self.price_code = price_code
 
+    def get_charge(self, days_rented: int) -> float:
+        """Calculate the charge for a rental of this book."""
+        amount = 0
+        if self.price_code == Book.REGULAR:
+            amount += 2
+            if days_rented > 2:
+                amount += (days_rented - 2) * 1.5
+        elif self.price_code == Book.NEW_RELEASE:
+            amount += days_rented * 3
+        elif self.price_code == Book.CHILDREN:
+            amount += 1.5
+            if days_rented > 3:
+                amount += (days_rented - 3) * 1.5
+        return amount
+
 
 class Rental:
     def __init__(self, book: Book, days_rented: int):
@@ -15,19 +30,8 @@ class Rental:
         self.days_rented = days_rented
 
     def get_charge(self) -> float:
-        """Calculate the charge for this rental."""
-        amount = 0
-        if self.book.price_code == Book.REGULAR:
-            amount += 2
-            if self.days_rented > 2:
-                amount += (self.days_rented - 2) * 1.5
-        elif self.book.price_code == Book.NEW_RELEASE:
-            amount += self.days_rented * 3
-        elif self.book.price_code == Book.CHILDREN:
-            amount += 1.5
-            if self.days_rented > 3:
-                amount += (self.days_rented - 3) * 1.5
-        return amount
+        """Delegate charge calculation to the book."""
+        return self.book.get_charge(self.days_rented)
 
     def get_frequent_renter_points(self) -> int:
         """Calculate frequent renter points for this rental."""
