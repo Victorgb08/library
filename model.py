@@ -1,3 +1,5 @@
+from abc import ABC, abstractmethod
+
 class Book:
 
     REGULAR: int = 0
@@ -75,3 +77,26 @@ class Client:
         result += f"Total: {total_amount}\n"
         result += f"Points: {frequent_renter_points}"
         return result
+
+class Price(ABC):
+    """Abstract base class for price strategies."""
+
+    @abstractmethod
+    def get_charge(self, days_rented: int) -> float:
+        pass
+
+    @abstractmethod
+    def get_frequent_renter_points(self, days_rented: int) -> int:
+        pass
+
+
+class RegularPrice(Price):
+    pass
+
+
+class NewReleasePrice(Price):
+    pass
+
+
+class ChildrenPrice(Price):
+    pass
